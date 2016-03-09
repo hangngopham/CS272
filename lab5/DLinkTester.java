@@ -1,7 +1,24 @@
 package lab5;
 
+import java.util.concurrent.TimeUnit;
+
 public class DLinkTester {
 
+	/**
+	 * Swap two nodes x and y (not just their content). Change links in nodes x,
+	 * y, and their neighbors. Data elements x and y do not change
+	 * 
+	 * Precondition: x and y are null; previous of x, next of x, previous of y,
+	 * next of y are null Postcondition: swap two nodes x and y
+	 * 
+	 * @param x
+	 *            - node x
+	 * @param y
+	 *            - node y
+	 * @return false if x and y are null, previous of x, next of x, previous of
+	 *         y, next of y are null
+	 * @return true if 
+	 */
 	public static boolean swap(DNode x, DNode y) {
 		DNode prevX = x.getPrev();
 		DNode nextX = x.getNext();
@@ -13,7 +30,7 @@ public class DLinkTester {
 				&& prevX.getElement() == null && nextX.getElement() == null
 				&& prevY.getElement() == null && nextY.getElement() == null) {
 			return false;
-		} else if (nextX == y) {
+		} else if (nextX == y) { // if node x is previous node of node y
 			y.setPrev(prevX);
 			y.setNext(x);
 			prevX.setNext(y);
@@ -21,7 +38,7 @@ public class DLinkTester {
 			x.setNext(nextY);
 			nextY.setPrev(x);
 			return true;
-		} else if (nextY == x) {
+		} else if (nextY == x) { // if node x is the next node after node y
 			x.setPrev(prevY);
 			x.setNext(y);
 			prevY.setNext(x);
@@ -29,10 +46,10 @@ public class DLinkTester {
 			y.setNext(nextX);
 			nextX.setPrev(y);
 			return true;
-		} else if (x == y) {
+		} else if (x == y) { // x and y refer to the same node
 			System.out.println("x and y refer to the same node");
 			return true;
-		} else {
+		} else { // node x and y are not next to each other
 			prevX.setNext(y);
 			y.setPrev(prevX);
 			y.setNext(nextX);
@@ -63,22 +80,24 @@ public class DLinkTester {
 			return null;
 		} else {
 			DNode headL = L.getFirst();
-			DNode cursor = headL;
-			while (cursor != null) {
-				cursor = cursor.getNext();
-			}
-			N.addFirst(headL);
-
 			DNode headM = M.getFirst();
-			DNode cursor2 = headM;
-			while (cursor2 != null) {
-				cursor2 = cursor2.getNext();
-			}
-			cursor.setNext(headM);
-			headM.setPrev(cursor);
 
-			return N;
+			DNode p1;
+			DNode p2;
+
+			while (!L.isEmpty()) {
+				p1 = L.getFirst();
+				L.remove(p1);
+				N.addLast(p1);
+			}
+
+			while (!M.isEmpty()) {
+				p2 = M.getFirst();
+				M.remove(p2);
+				N.addLast(p2);
+			}
 		}
+		return N;
 	}
 
 	/**
@@ -88,7 +107,6 @@ public class DLinkTester {
 	 *            - list which elements are to be reversed
 	 */
 	public static void reverse(DList list) {
-
 		DNode head = list.getFirst();
 		DNode last = list.getLast();
 
@@ -113,76 +131,122 @@ public class DLinkTester {
 	 *            - list to be merged
 	 * @param M
 	 *            - list to be merged
+	 * @throws InterruptedException
 	 */
 	public static DList merge(DList L, DList M) {
 		DList N = new DList();
-		DNode head1 = L.getFirst();
-		DNode cursor1 = head1;
-		DNode head2 = M.getFirst();
-		DNode cursor2 = head2;
-
-		while (cursor1 != null && cursor2 != null && cursor1.getNext() != null
-				&& cursor2.getNext() == null) {
-			DNode next1 = cursor1.getNext();
-			DNode next2 = cursor2.getNext();
-
-			cursor1.setNext(cursor2);
-			cursor2.setPrev(cursor1);
-			cursor2.setNext(next1);
-			next1.setPrev(cursor2);
-
-			cursor1 = next1;
-			cursor2 = next2;
+		DNode cursor1;
+		DNode cursor2;
+		boolean isList1 = true;
+		while (!L.isEmpty() && !M.isEmpty()) {
+			if (isList1) {
+				cursor1 = L.getFirst();
+				L.remove(cursor1);
+				N.addLast(cursor1);
+			} else {
+				cursor2 = M.getFirst();
+				M.remove(cursor2);
+				N.addLast(cursor2);
+			}
+			isList1 = !isList1;
 		}
 
-		if (cursor1.getNext() == null) {
-			cursor1.setNext(cursor2);
-			cursor2.setPrev(cursor1);
+		while (!L.isEmpty()) {
+			cursor1 = L.getFirst();
+			L.remove(cursor1);
+			N.addLast(cursor1);
 		}
 
-		if (cursor2.getNext() == null) {
-			cursor1.setNext(cursor2);
-			cursor2.setPrev(cursor1);
+		while (!M.isEmpty()) {
+			cursor2 = M.getFirst();
+			M.remove(cursor2);
+			N.addLast(cursor2);
 		}
-
-		DNode headN = head1;
-		N.addAfter(headN, head1.getNext());
 		return N;
 	}
 
 	public static void main(String[] args) {
 		// Create a doubly linked list named list
 		DList list = new DList();
-		list.addFirst(new DNode("A", null, null));
+		list.addFirst(new DNode("f", null, null));
 		DNode head = list.getFirst();
-		DNode node1 = new DNode("B", null, null);
+		DNode node1 = new DNode("g", null, null);
 		list.addAfter(head, node1);
-		DNode node2 = new DNode("C", null, null);
+		DNode node2 = new DNode("h", null, null);
 		list.addAfter(node1, node2);
-		DNode node3 = new DNode("D", null, null);
+		DNode node3 = new DNode("i", null, null);
 		list.addAfter(node2, node3);
-		DNode node4 = new DNode("E", null, null);
+		DNode node4 = new DNode("k", null, null);
 		list.addAfter(node3, node4);
+		System.out.println("Before swap, list is: " + list.toString());
+		// Test swap method
+		swap(node1, node3);
+		System.out.println("After swap, list is: " + list.toString());
 
+		// Create a doubly linked list named list1
+		DList list1 = new DList();
+		list1.addFirst(new DNode("A", null, null));
+		DNode head1 = list1.getFirst();
+		DNode node11 = new DNode("B", null, null);
+		list1.addAfter(head1, node11);
+		DNode node12 = new DNode("C", null, null);
+		list1.addAfter(node11, node12);
+
+		// Create a doubly linked list named list2
 		DList list2 = new DList();
-		list2.addFirst(new DNode("G", null, null));
+		list2.addFirst(new DNode("1", null, null));
 		DNode head2 = list2.getFirst();
-		DNode node5 = new DNode("A", null, null);
+		DNode node5 = new DNode("2", null, null);
 		list2.addAfter(head2, node5);
-		DNode node6 = new DNode("C", null, null);
+		DNode node6 = new DNode("3", null, null);
 		list2.addAfter(node5, node6);
-		DNode node7 = new DNode("D", null, null);
+		DNode node7 = new DNode("4", null, null);
 		list2.addAfter(node6, node7);
-		DNode node8 = new DNode("E", null, null);
+		DNode node8 = new DNode("5", null, null);
 		list2.addAfter(node7, node8);
-
-		// swap(head, node4);
-		System.out.println("list is " + list.toString());
-		//reverse(list);
-		//System.out.println(list.toString());
+		DNode node9 = new DNode("6", null, null);
+		list2.addAfter(node8, node9);
+		System.out.println("list1 is " + list1.toString());
 		System.out.println("list2 is " + list2.toString());
-		System.out.println(merge(list, list2).toString());
-		//DList newList = concat(list, list2);
-		//System.out.println(newList.toString());
+		// Test concat method
+		System.out.println("Concatenation of list1 and list2 is "
+				+ concat(list1, list2).toString());
+
+		// Create a doubly linked list named list3
+		DList list3 = new DList();
+		list3.addFirst(new DNode("a", null, null));
+		DNode head3 = list3.getFirst();
+		DNode node13 = new DNode("b", null, null);
+		list3.addAfter(head3, node13);
+		DNode node23 = new DNode("c", null, null);
+		list3.addAfter(node13, node23);
+
+		// Create a doubly linked list named list4
+		DList list4 = new DList();
+		list4.addFirst(new DNode("11", null, null));
+		DNode head4 = list4.getFirst();
+		DNode node14 = new DNode("21", null, null);
+		list4.addAfter(head4, node14);
+		DNode node24 = new DNode("31", null, null);
+		list4.addAfter(node14, node24);
+
+		System.out.println("list3 is " + list3.toString());
+		System.out.println("list4 is " + list4.toString());
+		// Test merge method
+		System.out.println("Merge of list3 and list4 is "
+				+ merge(list3, list4).toString());
+
+		// Create a doubly linked list named list5
+		DList list5 = new DList();
+		list5.addFirst(new DNode("D", null, null));
+		DNode head5 = list5.getFirst();
+		DNode node15 = new DNode("E", null, null);
+		list5.addAfter(head5, node15);
+		DNode node25 = new DNode("F", null, null);
+		list5.addAfter(node15, node25);
+		System.out.println("Bfore reverse, list5 is " + list5.toString());
+		reverse(list5);
+		System.out.println("Reverse of list5 is " + list5.toString());
+
 	}
 }
