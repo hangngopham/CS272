@@ -1,0 +1,43 @@
+Good values of the multiplier (40), seed (1), increment (3641), and modulus (729)
+
+Enter mulitplier:
+40
+Enter seed:
+1
+Enter increment:
+3641
+Enter modulus:
+729
+Range		Number of Occurrences
+[0.0..0.1)     100136
+[0.1..0.2)     100145
+[0.2..0.3)     100136
+[0.3..0.4)     100138
+[0.4..0.5)     100138
+[0.5..0.6)     100138
+[0.6..0.7)     100138
+[0.7..0.8)     100129
+[0.8..0.9)     100138
+[0.9..1.0)     98764
+
+Not good value of  the multiplier (63), seed (6), increment (33), and modulus (333)
+Enter mulitplier:
+63
+Enter seed:
+6
+Enter increment:
+33
+Enter modulus:
+333
+Range		Number of Occurrences
+[0.0..0.1)     333333
+[0.1..0.2)     0
+[0.2..0.3)     333333
+[0.3..0.4)     0
+[0.4..0.5)     0
+[0.5..0.6)     0
+[0.6..0.7)     0
+[0.7..0.8)     0
+[0.8..0.9)     333334
+[0.9..1.0)     0
+
