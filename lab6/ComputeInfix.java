@@ -12,34 +12,36 @@ public class ComputeInfix {
 		LinkedStack<Character> opStack = new LinkedStack();
 
 		for (int i = 0; i < exp.length(); i++) {
+			System.out.println(numStack.toString());
+			System.out.println(opStack.toString());
 			if (exp.charAt(i) == '(') {
 				opStack.push(exp.charAt(i));
 			} else if (Character.isDigit(exp.charAt(i))) {
 				int num;
-				num = Integer.parseInt(exp.substring(i, i + 1));
+				int j = i;
+				while(i < exp.length() && Character.isDigit(exp.charAt(i))) {
+					i++;
+				}
+				num = Integer.parseInt(exp.substring(j,i));
 				numStack.push(num);
+				i--;
 
 			} else if (isOperator(exp.charAt(i))) {
-				while (!opStack.isEmpty() && opStack.peek() != '(') {
-//					HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-//
-//					map.put('*', 2);
-//					map.put('/', 2);
-//					map.put('+', 1);
-//					map.put('-', 1);
+				while (!opStack.isEmpty() && opStack.peek() != '('
+						&& !precedence(opStack.peek(), exp.charAt(i))) {
 
-//					if (map.get(opStack.peek()) > map.get(exp.charAt(i))) {
-//						operation(numStack, opStack);
-//					}
-					System.out.println(precedence(opStack.peek()));
-					if(precedence(opStack.peek()) > precedence(exp.charAt(i))) {
-						operation(numStack, opStack);
-					}
+	System.out.println("Peek is " + opStack.peek());
+					operation(numStack, opStack);
 
-					opStack.push(exp.charAt(i));
 				}
+
+				opStack.push(exp.charAt(i));
+
+				//System.out.println(opStack.toString());
+
 			} else {
 				while (opStack.peek() != '(' && !opStack.isEmpty()) {
+					//System.out.println("Peek");
 					operation(numStack, opStack);
 				}
 
@@ -50,10 +52,11 @@ public class ComputeInfix {
 
 				opStack.pop();
 			}
-		}
 
+		}// end for loop
 		while (!opStack.isEmpty()) {
 			operation(numStack, opStack);
+			System.out.println("Peek");
 		}
 
 		System.out.println(numStack.toString());
@@ -72,43 +75,32 @@ public class ComputeInfix {
 		return false;
 	}
 
-	public static boolean operation(LinkedStack<Integer> nums,
+	public static void operation(LinkedStack<Integer> nums,
 			LinkedStack<Character> op) {
-
 		if (nums.size() < 2) {
-			return false;
+			return;
 		}
 		int a = nums.pop();
 		int b = nums.pop();
 
 		switch (op.pop()) {
 		case '+':
-			nums.push(a + b);
+			nums.push(b + a);
 			break;
 		case '-':
-			nums.push(a - b);
+			nums.push(b - a);
 			break;
 		case '*':
-			nums.push(a * b);
+			nums.push(b * a);
 			break;
 		case '/':
-			nums.push(a / b);
+			nums.push(b / a);
 			break;
 		}
-		return true;
 	}
 
-	public static int precedence(char op) {
-		switch (op) {
-		case '+':
-		case '-':
-			return 0;
-		case '*':
-		case '/':
-			return 1;
-		}
-		throw new IllegalArgumentException("Operator unknown");
-		
+	public static boolean precedence(char op1, char op2) {
+		return (op1 == '+' || op1 == '-') && (op2 == '*' || op2 == '/');
 	}
 
 }
