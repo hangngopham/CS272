@@ -9,6 +9,8 @@ package lab7;
 import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
 
+import lab6.Node;
+
 //import edu.colorado.nodes.Node;
 
 /******************************************************************************
@@ -188,7 +190,40 @@ public class LinkedQueue<E> implements Cloneable {
 	 * 
 	 */
 	public void updateFront(E item) {
-		
+		if(front == null) {
+			front = new Node(item, null);
+		}
+		else {
+			front = new Node(item, front.getLink());
+		}
+	}
+	
+	public String toString() {
+		 if (front != null)
+	      {
+		   String answer = "";
+		   Node<E> current = front;
+		   while (current != null)
+		   {
+		       answer = answer + current.getData() + "|";
+		       current = current.getLink();
+		   }
+	           return answer;
+	      }	
+	      else return "|";
+	}
+	
+	public static void main(String[] agrs) {
+		LinkedQueue<Integer> queue = new LinkedQueue<Integer>();
+		queue.add(1);
+		queue.add(2);
+		queue.add(3);
+		queue.add(4);
+		queue.add(5);
+		System.out.println(queue);
+		System.out.println(queue.peek());
+		queue.updateFront(1000);
+		System.out.println(queue.peek());
 	}
 
 }
