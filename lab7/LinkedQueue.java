@@ -1,5 +1,4 @@
-package lab7;
-
+package lab8;
 // File: LinkedQueue.java from the package edu.colorado.collections
 // Complete documentation is available from the LinkedQueue link in:
 //   http://www.cs.colorado.edu/~main/docs/
@@ -8,8 +7,6 @@ package lab7;
 
 import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
-
-import lab6.Node;
 
 //import edu.colorado.nodes.Node;
 
@@ -179,51 +176,21 @@ public class LinkedQueue<E> implements Cloneable {
 	 * @return the item of the front of the queue
 	 */
 	public E peek() {
-		if(front == null) {
+		if (front == null) {
 			throw new EmptyStackException();
 		}
 		return front.getData();
 	}
-	
+
 	/**
 	 * Replace the element at the front of the queue with the given item
 	 * 
 	 */
 	public void updateFront(E item) {
-		if(front == null) {
-			front = new Node(item, null);
+		if (front == null) {
+			throw new EmptyStackException();
+		} else {
+			front.setData(item);
 		}
-		else {
-			front = new Node(item, front.getLink());
-		}
 	}
-	
-	public String toString() {
-		 if (front != null)
-	      {
-		   String answer = "";
-		   Node<E> current = front;
-		   while (current != null)
-		   {
-		       answer = answer + current.getData() + "|";
-		       current = current.getLink();
-		   }
-	           return answer;
-	      }	
-	      else return "|";
-	}
-	
-	public static void main(String[] agrs) {
-		LinkedQueue<Integer> queue = new LinkedQueue<Integer>();
-		queue.add(1);
-		queue.add(2);
-		queue.add(3);
-		queue.add(4);
-		queue.add(5);
-		System.out.println(queue);
-		System.out.println(queue.peek());
-		queue.updateFront(1000);
-		System.out.println(queue.peek());
-	}
-
 }
