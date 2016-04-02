@@ -1,4 +1,5 @@
-package lab7;
+package lab8;
+
 /** Represents a transaction */
 public class Transaction {
 	private int number; /** number of shares in the transaction */
