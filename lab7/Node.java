@@ -1,4 +1,4 @@
-package lab7;
+package lab8;
 // File: Node.java from the package edu.colorado.nodes
 // Complete documentation is available from the Node link in:
 //   http://www.cs.colorado.edu/~main/docs
