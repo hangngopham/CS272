@@ -1,5 +1,7 @@
 package lab8;
 
+import java.util.Scanner;
+
 public class Recursion {
 	/**
 	 * Precondition: m <= n, m > 0, n > 0
@@ -65,7 +67,22 @@ public class Recursion {
 	 * @param i
 	 */
 	public static void pattern(int n, int i) {
-
+		if (n == 1) {
+			for (int k = 0; k < 2 * i; k++) {
+				System.out.print(" ");
+			}
+			System.out.println("* ");
+		} else {
+			pattern(n / 2, i);
+			for (int k = 0; k < 2 * i; k++) {
+				System.out.print(" ");
+			}
+			for (int j = 0; j < n; j++) {
+				System.out.print("* ");
+			}
+			System.out.print("\n");
+			pattern(n / 2, n / 2 + i);
+		}
 	}
 
 	/**
@@ -80,21 +97,41 @@ public class Recursion {
 	 *            - an integer
 	 */
 	public static void binaryPrint(int n) {
-		if (n == 0) {
-			System.out.println(0);
-		} else {
-			binaryPrint(n / 2);
-			System.out.print(n % 2);
-		}
+		if (n >=2) {
+			binaryPrint(n / 2);}
+		System.out.print(n%2);		
+		
 	}
 
 	public static void main(String[] args) {
-		// int m = 3;
-		// int n = 5;
-		// triangle(3, 7);
+		Scanner input = new Scanner(System.in);
 
-		numbers("THERBLIG", 2);
-		// binaryPrint(4);
+		System.out.println("Test triangle method");
+		System.out.println("Enter the first number: ");
+		int num1 = input.nextInt();
+		System.out.println("Enter the second number: ");
+		int num2 = input.nextInt();
+		triangle(num1, num2);
 
+		System.out.println("Test numbers method");
+		System.out.println("Enter the prefix: ");
+		String word = input.next();
+		System.out.println("Enter level: ");
+		int level = input.nextInt();
+		numbers(word, level);
+
+		System.out.println("Test pattern method");
+		System.out.println("Enter the number of asterisks: ");
+		int num3 = input.nextInt();
+		System.out.println("Enter the number of columns: ");
+		int num4 = input.nextInt();
+		pattern(num3, num4);
+
+		System.out.println("Test binaryPrint method");
+		System.out.println("Enter number: ");
+		int num5 = input.nextInt();
+		binaryPrint(num5);
+		
+		
 	}
 }
