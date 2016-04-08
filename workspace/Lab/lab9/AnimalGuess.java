@@ -4,7 +4,7 @@ package lab9;
 // This animal-guessing program illustrates the use of the binary tree node class.
 
 //import edu.colorado.nodes.BTNode;
-import java.util.Scanner;
+import java.util.*;
 
 /******************************************************************************
 * The <CODE>AnimalGuess</CODE> Java application illustrates the use of
@@ -33,6 +33,18 @@ public class AnimalGuess
    **/
    public static void main(String[ ] args)
    {
+//	   System.out.print("Please enter file name: ");
+//	   BTNode<String> root;
+//	   Scanner input = new Scanner(System.in);
+//	   root = BTNode.readFromFile(input);
+//	   
+//	   instruct();
+//	   do{
+//		   play(root);
+//	   }
+//	   while(query("Shall we play again?"));
+	   
+	   
       BTNode<String> root;
 
       instruct( );

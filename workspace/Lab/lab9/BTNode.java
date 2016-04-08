@@ -1,7 +1,7 @@
 package lab9;
 
-import java.io.PrintWriter;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 // File: BTNode.java from the package edu.colorado.nodes
 // Complete documentation is available from the BTNode link in:
@@ -359,52 +359,101 @@ public class BTNode<E> {
 	 */
 	public void printLeaves() {
 		BTNode<E> root = this;
-		if(root == null) {
+		if (root == null) {
 			System.out.println("Root is null");
-		}
-		else {
-			if(!root.isLeaf()){
-				if(root.getLeft() != null) {
+		} else {
+			if (!root.isLeaf()) {
+				if (root.getLeft() != null) {
 					root.getLeft().printLeaves();
 				}
-				if(root.getRight() != null) {
+				if (root.getRight() != null) {
 					root.getRight().printLeaves();
 				}
+			} else {
+				System.out.println(root.getData());
 			}
-			else {
-					System.out.println(root.getData());
-			}			
-		}		
+		}
 	}
 
 	/**
+	 * Build a tree which representation starts on the next line in input
 	 * 
 	 * @param input
 	 *            - stream of Scanner class which is connected to a text file
 	 *            for reading
-	 * @return
+	 * @return the root of the built tree
 	 */
-//	public static BTNode<String> readFromFile(Scanner input) {
-//
-//	}
-	
+	public static BTNode<String> readFromFile(Scanner input) {
+		input = new Scanner(System.in);
+		System.out.print("Please enter file name: ");
+		String filename = input.next();
+		try {
+			input = new Scanner(new FileInputStream(filename));
+		} catch (FileNotFoundException fnfe) {
+			System.out.println("File " + filename
+					+ " was not found or could not be opened.");
+			System.exit(0);
+		}
+
+		BTNode<String> root = null;
+		if (input.hasNext()) {
+			String line = input.nextLine();
+			root = new BTNode<String>(line, null, null);
+			System.out.println("Line is " + line);
+		}
+		while (input.hasNext()) {
+			String line1 = input.nextLine();
+			System.out.println("Line1 is " + line1);
+			BTNode<String> node = new BTNode<String>(line1, null, null);
+
+			if (line1.startsWith("?")) {
+				String q = line1.substring(1);
+				node = new BTNode<String>(q, null, null);
+			}
+			if (root.getLeft() == null) {
+				root.setLeft(node);
+			} else {
+				root.setRight(node);
+			}
+
+			// if(line1.startsWith("?")) {
+			// BTNode<String> nonleaf = new BTNode<String>(line1, null, null);
+			// leaf = false;
+			// }
+			// else {
+			// BTNode<String> leafNode = new BTNode<String>(line1, null, null);
+			// leaf = true;
+			//
+			// }
+		}
+		return root;
+	}
+
 	/**
+	 * Write a tree with root to output using tha data format
 	 * 
 	 * @param output
+	 *            - stream of the class PrintWriter which is connected to a text
+	 *            file for writing
 	 * @param root
+	 *            - a root of a knowledge tree
 	 */
 	public static void writeToFile(PrintWriter output, BTNode<String> root) {
-		
+
 	}
-	
+
 	public static void main(String[] args) {
+
 		BTNode<Integer> root = new BTNode<Integer>(45, null, null);
 		BTNode<Integer> childL = new BTNode<Integer>(10, null, null);
 		root.setLeft(childL);
 		BTNode<Integer> childR = new BTNode<Integer>(53, null, null);
 		root.setRight(childR);
-		//root.print(1);
-		root.printLeaves();
+		// root.print(1);
+		// root.printLeaves();
+		// root.preorderPrint();
+		Scanner input = new Scanner(System.in);
+		readFromFile(input);
 	}
 
 }
