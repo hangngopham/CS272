@@ -97,10 +97,11 @@ public class Recursion {
 	 *            - an integer
 	 */
 	public static void binaryPrint(int n) {
-		if (n >=2) {
-			binaryPrint(n / 2);}
-		System.out.print(n%2);		
-		
+		if (n >= 2) {
+			binaryPrint(n / 2);
+		}
+		System.out.print(n % 2);
+
 	}
 
 	public static void main(String[] args) {
@@ -130,8 +131,8 @@ public class Recursion {
 		System.out.println("Test binaryPrint method");
 		System.out.println("Enter number: ");
 		int num5 = input.nextInt();
+		System.out.print("If n=" + num5 + " then output is ");
 		binaryPrint(num5);
-		
-		
+
 	}
 }
