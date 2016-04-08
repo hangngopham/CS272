@@ -358,24 +358,23 @@ public class BTNode<E> {
 	 * Ouput all the leaves in the binary tree with this node as its root
 	 */
 	public void printLeaves() {
-		BTNode<E> cursor = this; // this node = root
-		if(this == null) {
+		BTNode<E> root = this;
+		if(root == null) {
 			System.out.println("Root is null");
 		}
 		else {
-			if(cursor.isLeaf())
-			{
-				cursor.getLeft().printLeaves();
-				cursor.getRight().printLeaves();
+			if(!root.isLeaf()){
+				if(root.getLeft() != null) {
+					root.getLeft().printLeaves();
+				}
+				if(root.getRight() != null) {
+					root.getRight().printLeaves();
+				}
 			}
 			else {
-				cursor = this.getLeft();
-				cursor = this.getRight();
-//				this = this.getRight();
-			}
-			
-		}
-		
+					System.out.println(root.getData());
+			}			
+		}		
 	}
 
 	/**
@@ -400,11 +399,11 @@ public class BTNode<E> {
 	
 	public static void main(String[] args) {
 		BTNode<Integer> root = new BTNode<Integer>(45, null, null);
-//		BTNode<Integer> childL = new BTNode<Integer>(10, null, null);
-//		root.setLeft(childL);
-//		BTNode<Integer> childR = new BTNode<Integer>(53, null, null);
-//		root.setRight(childR);
-//		root.print(1);
+		BTNode<Integer> childL = new BTNode<Integer>(10, null, null);
+		root.setLeft(childL);
+		BTNode<Integer> childR = new BTNode<Integer>(53, null, null);
+		root.setRight(childR);
+		//root.print(1);
 		root.printLeaves();
 	}
 
