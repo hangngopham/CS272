@@ -1,0 +1,19 @@
+Exercise 3.3.2:
+a) a(a|b)*a
+All strings of a's and b's that start with "a" character followed by arbitrary many "a"s and "b"s (including 0) and ends with "a" character
+
+b) ((e|a)b*)*, where e denotes the empty string
+All strings of a's and b's that contain any a's or b's. Specifically an empty string is allowed.
+
+c) (a|b)*a(a|b) (a|b)
+
+d) a* b a* b a* b a*
+All strings of a's and b's that begin and end in a.
+
+
+Exercise 3.3.5:
+a) All strings of lowercase letters that contain the five vowels in order
+[a-z]*[aeiou]
+
+b) All strings of lowercase letters in which the letters are in ascending lexicographis order
+
